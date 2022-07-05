@@ -30,7 +30,7 @@ function CustomerSidebar() {
               />
             </div>
             <div className="col-10">
-              <h1 className="mt-2">AG Nieve</h1>
+              <h1 className="mt-2">Yvonne Customer</h1>
             </div>
           </div>
           <div className="row">
