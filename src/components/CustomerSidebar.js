@@ -21,7 +21,7 @@ function CustomerSidebar() {
           <div className="row mb-4">
             <div className="col-2">
               <img
-                src="/logo.png"
+                src="/avatar2.png"
                 className="rounded-circle"
                 alt="avatar"
                 width={55}

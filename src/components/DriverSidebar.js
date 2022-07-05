@@ -21,7 +21,7 @@ function CustomerSidebar() {
           <div className="row mb-4">
             <div className="col-2">
               <img
-                src="/logo.png"
+                src="/avatar1.png"
                 className="rounded-circle"
                 alt="avatar"
                 width={55}
@@ -30,7 +30,7 @@ function CustomerSidebar() {
               />
             </div>
             <div className="col-10">
-              <h1 className="mt-2">Yvonne Customer</h1>
+              <h1 className="mt-2">Yvonne Decina</h1>
             </div>
           </div>
           <div className="row">
