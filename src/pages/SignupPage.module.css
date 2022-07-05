@@ -1,0 +1,12 @@
+.header {
+  background-image: linear-gradient(
+      to right bottom,
+      rgba(12, 45, 72, 0.866),
+      rgba(46, 139, 192, 0.805)
+    ),
+    url("./img/background.jpg");
+  background-size: cover;
+  background-position: top;
+  position: relative;
+  height: 100vh;
+}

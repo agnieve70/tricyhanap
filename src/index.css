@@ -1,0 +1,23 @@
+
+body{
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  box-sizing: border-box;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+.map-container {
+height: 70vh;
+}
+
+.bg-success{
+  background-color: rgb(107, 214, 85) !important;
+}
+
+a{
+  text-decoration: none;
+}

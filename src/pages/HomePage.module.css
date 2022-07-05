@@ -1,0 +1,71 @@
+.header {
+  background-image: linear-gradient(
+      to right bottom,
+      rgba(12, 45, 72, 0.866),
+      rgba(46, 139, 192, 0.805)
+    ),
+    url("./img/background.jpg");
+  background-size: cover;
+  background-position: top;
+  position: relative;
+  height: 100vh;
+}
+
+.header__logo_box {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.header__logo {
+  height: 4rem;
+}
+
+.header__text_box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.heading_primary {
+  color: #fff;
+  text-transform: uppercase;
+  margin-bottom: 6rem;
+}
+.heading_primary__main {
+  display: block;
+  font-size: 2.7rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  animation: moveInLeft 1s ease-out;
+}
+.heading_primary__sub {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.5rem;
+  animation: moveInRight 1s ease-out;
+}
+
+#btn_get_started:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+#btn_get_started:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0;
+}
+
+#btn_get_started:active {
+  transform: translateY(-1px);
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.2);
+}
+
+#btn_get_started:link,
+#btn_get_started:visited {
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
