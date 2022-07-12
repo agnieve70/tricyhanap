@@ -1,9 +1,51 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from "react-router-dom";
 import "./img/background.jpg";
 import styles from "./SignupPage.module.css";
 
+
+async function addUser(username, email, password, password_confirmation, role) {
+  let bodyFormData = new FormData();
+  bodyFormData.append("name", username);
+  bodyFormData.append("email", email);
+  bodyFormData.append("password", password);
+  bodyFormData.append("password_confirmation", password_confirmation);
+  bodyFormData.append("role", role);
+
+  const res = await fetch('https://tricyhanap-backend.herokuapp.com/api/register', {
+      method: 'POST',
+      body: bodyFormData,
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+      throw new Error(data.message || "Something wnt wrong");
+  }
+
+  return data;
+}
+
 function SignupPage() {
+
+  const [username, setUsername] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [password_confirmation, setPasswordConfirmation] = useState();
+  const [role, setRole] = useState();
+
+
+  function submitHandler(e){
+    e.preventDefault();
+    addUser(username, email, password, password_confirmation, role).then((result) => {
+      if(result){
+        alert("Registered Successfully!");
+        window.location.href="/login";
+      }
+    }).catch((error)=> {
+      alert("Registration Failed!");
+      console.log("ERROR: ", error);
+    })
+  }
   return (
     <header className={styles.header}>
       <div className={styles.header__logo_box}>
@@ -18,31 +60,23 @@ function SignupPage() {
       </div>
       <div className="px-3">
         <h1 className="text-center text-light">REGISTRATION</h1>
-        <form className="signup-form">
+        <form className="signup-form" onSubmit={submitHandler}>
           <div className="form-group">
-            <label for="firstname" className="form-label text-light">
-              First Name
+            <label htmlFor="name" className="form-label text-light">
+               Name
             </label>
             <input
               type="text"
               className="form-control"
-              name="firstname"
-              id="firstname"
+              name="name"
+              id="name"
+              value={username} 
+              onChange={(e)=> setUsername(e.target.value)}
             />
           </div>
+         
           <div className="form-group">
-            <label for="lastname" className="form-label text-light">
-              Last Name
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              name="lastname"
-              id="lastname"
-            />
-          </div>
-          <div className="form-group">
-            <label for="email" className="form-label text-light">
+            <label htmlFor="email" className="form-label text-light">
               E-mail
             </label>
             <input
@@ -50,10 +84,22 @@ function SignupPage() {
               className="form-control"
               name="email"
               id="email"
+              value={email}
+              onChange={(e)=> setEmail(e.target.value)}
             />
           </div>
           <div className="form-group">
-            <label for="password" className="form-label text-light">
+            <label htmlFor="role" className="form-label text-light">
+              Role
+            </label>
+            <select value={role} onChange={(e) => setRole(e.target.value)} name="" id="role" className="form-control">
+            <option value="" selected disabled>Select Role</option>
+              <option value="driver">Driver</option>
+              <option value="passenger">Passenger</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="password" className="form-label text-light">
               Password
             </label>
             <input
@@ -61,10 +107,13 @@ function SignupPage() {
               className="form-control"
               name="password"
               id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+         
           <div className="form-group">
-            <label for="password_confirmation" className="form-label text-light">
+            <label htmlFor="password_confirmation" className="form-label text-light">
               Password Confirmation
             </label>
             <input
@@ -72,6 +121,8 @@ function SignupPage() {
               className="form-control"
               name="password_confirmation"
               id="password_confirmation"
+              value={password_confirmation}
+              onChange={(e)=> setPasswordConfirmation(e.target.value)}
             />
           </div>
           <div className="container mt-3">

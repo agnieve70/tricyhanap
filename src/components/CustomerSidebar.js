@@ -1,8 +1,16 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 import OffCanvas from "../ui/OffCanvas";
 import { Link } from "react-router-dom";
 
 function CustomerSidebar() {
+
+  function logoutHandler(){
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    window.location.href='/login';
+  }
+
   return (
     <OffCanvas
       header={
@@ -35,49 +43,50 @@ function CustomerSidebar() {
           </div>
           <div className="row">
             <div className="col-12">
-              <div class="list-group">
+              <div className="list-group">
                 <Link
                   to="/customer-dashboard"
-                  class="list-group-item list-group-item-action my-1"
+                  className="list-group-item list-group-item-action my-1"
                 >
                   <i className="fa fa-search"></i> Find Vehicle
                 </Link>
                 <Link
                   to="/customer-transaction"
-                  class="list-group-item list-group-item-action my-1"
+                  className="list-group-item list-group-item-action my-1"
                 >
                   <i className="fa fa-history"></i> Transaction History
                 </Link>
                 <Link
                   to="/customer-complaints"
-                  class="list-group-item list-group-item-action my-1"
+                  className="list-group-item list-group-item-action my-1"
                 >
                   <i className="fa fa-edit"></i> My Compaints
                 </Link>
                 <Link
                   to="/customer-points"
-                  class="list-group-item list-group-item-action my-1"
+                  className="list-group-item list-group-item-action my-1"
                 >
                   <i className="fa fa-coins"></i> Points
                 </Link>
                 <Link
                   to="/customer-account-settings"
-                  class="list-group-item list-group-item-action my-1"
+                  className="list-group-item list-group-item-action my-1"
                 >
                   <i className="fa fa-cog"></i> Account Settings
                 </Link>
                 <Link
                   to="/customer-subscription"
-                  class="list-group-item list-group-item-action my-1"
+                  className="list-group-item list-group-item-action my-1"
                 >
                   <i className="fa fa-envelope"></i> Subscription
                 </Link>
-                <Link
-                  to="/"
-                  class="list-group-item list-group-item-action my-1"
+                <a
+                  href="#"
+                  onClick={logoutHandler}
+                  className="list-group-item list-group-item-action my-1"
                 >
                   <i className="fa fa-sign-out"></i> Logout
-                </Link>
+                </a>
               </div>
             </div>
           </div>

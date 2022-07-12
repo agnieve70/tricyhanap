@@ -6,6 +6,8 @@ import withReactContent from "sweetalert2-react-content";
 import CustomerSidebar from "../components/CustomerSidebar";
 import CustomerNavbar from "../components/CustomerNavbar";
 
+const auth_token = localStorage.getItem("auth_token");
+
 mapboxgl.accessToken = mapbox_key;
 const MySwal = withReactContent(Swal);
 const Toast = MySwal.mixin({
@@ -32,6 +34,49 @@ function showPosition(position) {
   myLocation = [position.coords.longitude, position.coords.latitude];
 }
 
+async function getAddress(latitude, longitude) {
+
+  const res = await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=${mapboxgl.accessToken}`);
+
+  const data = await res.json();
+  if (!res.ok) {
+    throw new Error(data.message || "Something wnt wrong");
+  }
+  console.log("RESULT CONVERT ADDRESS: ", data);
+  return data.features[0].text;
+}
+
+async function addRequest(current_latitude, current_longitude,
+  to_latitude, to_longitude, from_address, to_address, status, amount) {
+
+  const res = await fetch('https://tricyhanap-backend.herokuapp.com/api/request-pickup/create', {
+      method: 'POST',
+      body: JSON.stringify({
+        current_latitude : current_latitude,
+        current_longitude: current_longitude,
+        to_latitude : to_latitude,
+        to_longitude: to_longitude,
+        from_address: from_address,
+        to_address: to_address,
+        status: status,
+        amount: amount
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Authorization": `Bearer ${auth_token}`
+    },
+  });
+
+  const data = await res.json();
+  if (!res.ok) {
+      throw new Error(data.message || "Something wnt wrong");
+  }
+
+  return data;
+}
+
+
 function CustomerDashboardPage() {
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -47,6 +92,9 @@ function CustomerDashboardPage() {
   const [steps, setStep] = useState();
   const [duration, setDuration] = useState();
   const [status, setStatus] = useState();
+  const [currentAddress, setCurrentAddress] = useState();
+  const [toAddress, setToAddress] = useState();
+  const [coord, setCoord] = useState([]);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -106,6 +154,10 @@ function CustomerDashboardPage() {
       }
       // add turn instructions here at the end
     }
+    console.log("MYLOCATION", myLocation[1]);
+    getAddress(myLocation[1], myLocation[0]).then((result) => {
+      setCurrentAddress(result);
+    });
 
     map.current.on("load", () => {
       getRoute(start);
@@ -141,6 +193,11 @@ function CustomerDashboardPage() {
     map.current.on("click", (event) => {
       setClicked(true);
       const coords = Object.keys(event.lngLat).map((key) => event.lngLat[key]);
+      setCoord(coords);
+      console.log("COORDS", coords);
+      getAddress(coords[1], coords[0]).then((result) => {
+        setToAddress(result);
+      });
       const end = {
         type: "FeatureCollection",
         features: [
@@ -187,19 +244,23 @@ function CustomerDashboardPage() {
   }, [steps]);
 
   const handleFindVehicle = () => {
-    Toast.fire({
-      icon: "question",
-      title: "Finding Tricy",
-      showCancelButton: true,
-    }).then((data)=> {
-     if(count === 2){
+    addRequest(myLocation[1], myLocation[0], coord[1], coord[0], currentAddress, toAddress, 'waiting', 20 ).then((result) => {
+      Toast.fire({
+        icon: "question",
+        title: "Finding Tricy",
+        showCancelButton: true,
+      }).then((data)=> {
+       if(count === 2){
+  
+        setStatus('Waiting');
+       }else{
+        setStatus('No Tricycle has picked up your request.');
+        setCount(count + 1);
+       }
+      })
+    });
 
-      setStatus('Waiting');
-     }else{
-      setStatus('No Tricycle has picked up your request.');
-      setCount(count + 1);
-     }
-    })
+    
   };
 
   const handleReportDriver = () => {
@@ -225,10 +286,12 @@ function CustomerDashboardPage() {
         <div ref={mapContainer} className="map-container" />
         <div className="container mt-3">
           {clicked && <h4>Fare: Php. {fare}</h4>}
+          <h4>My Location: {currentAddress}</h4>
+          <h4>Destination: {toAddress}</h4>
           <h4>Trip duration: {duration} min 🚴</h4>
           {status && <h4>Status: <span className="text-muted">{status}</span></h4>}
           {/* <h4>Status: <span className="badge bg-warning">Waiting</span></h4> */}
-          <div class="d-grid gap-2">
+          <div className="d-grid gap-2">
             <button
               onClick={() => handleFindVehicle()}
               className="btn btn-primary"
@@ -257,10 +320,10 @@ function CustomerDashboardPage() {
               Report Driver <i className="fa fa-information"></i>
             </button>}
           </div>
-          <ul class="list-group">
+          <ul className="list-group">
             {steps
               ? steps.map((step, indx) => (
-                  <li class="list-group-item" key={indx + 1}>
+                  <li className="list-group-item" key={indx + 1}>
                     {step.maneuver.instruction}
                   </li>
                 ))

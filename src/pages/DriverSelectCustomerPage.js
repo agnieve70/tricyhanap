@@ -233,7 +233,7 @@ function DriverSelectCustomerPage() {
         <div ref={mapContainer} className="map-container" />
         <div className="container mt-3">
           <h4>Trip duration: {duration} min 🚴</h4>
-          <div class="d-grid gap-2 mb-2">
+          <div className="d-grid gap-2 mb-2">
             {customerStatus == "driving" ? (
               <button
                 onClick={() => handleArriveDestination()}
@@ -266,10 +266,10 @@ function DriverSelectCustomerPage() {
           </div>
           {
             reportCustomer == false ?
-            <ul class="list-group">
+            <ul className="list-group">
             {steps
               ? steps.map((step, indx) => (
-                  <li class="list-group-item" key={indx + 1}>
+                  <li className="list-group-item" key={indx + 1}>
                     {step.maneuver.instruction}
                   </li>
                 ))
