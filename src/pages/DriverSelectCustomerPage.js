@@ -201,8 +201,12 @@ function DriverSelectCustomerPage() {
       icon: "info",
       title: "Customer is waiting . . .",
     }).then((result)=> {
+      // alert(result);
+
       if(result.dismiss == 'cancel'){
         alert('cancelled!');
+      }else{
+        setCustomerStatus('driving');
       }
     })
   };
