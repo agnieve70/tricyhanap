@@ -39,6 +39,8 @@ function CustomerDashboardPage() {
   const [lat, setLat] = useState(6.74972);
   const [zoom, setZoom] = useState(14);
   const [showTextArea, setShowTextArea]  =useState(false);
+  const [fare, setFare]  =useState(20.00);
+  const [clicked, setClicked]  =useState(false);
 
   const [steps, setStep] = useState();
   const [duration, setDuration] = useState();
@@ -134,6 +136,7 @@ function CustomerDashboardPage() {
     });
 
     map.current.on("click", (event) => {
+      setClicked(true);
       const coords = Object.keys(event.lngLat).map((key) => event.lngLat[key]);
       const end = {
         type: "FeatureCollection",
@@ -184,6 +187,7 @@ function CustomerDashboardPage() {
     Toast.fire({
       icon: "question",
       title: "Finding Vehicle",
+      showCancelButton: true,
     });
   };
 
@@ -209,6 +213,7 @@ function CustomerDashboardPage() {
       <div>
         <div ref={mapContainer} className="map-container" />
         <div className="container mt-3">
+          {clicked && <h4>Fare: Php. {fare}</h4>}
           <h4>Trip duration: {duration} min 🚴</h4>
           <div class="d-grid gap-2">
             <button

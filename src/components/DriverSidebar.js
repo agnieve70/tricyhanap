@@ -48,12 +48,12 @@ function CustomerSidebar() {
                 >
                   <i className="fa fa-edit"></i> Complaints
                 </Link>
-                <Link
+                {/* <Link
                   to="/driver-penalties"
                   class="list-group-item list-group-item-action my-1"
                 >
                   <i className="fa fa-pencil"></i> Penalties
-                </Link>
+                </Link> */}
                 <Link
                   to="/customer-transaction"
                   class="list-group-item list-group-item-action my-1"

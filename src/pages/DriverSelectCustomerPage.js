@@ -16,11 +16,13 @@ const Toast = MySwal.mixin({
   timer: 10000,
   timerProgressBar: true,
   showCancelButton: true,
+  cancelButtonText: 'cancel',
   didOpen: (toast) => {
     toast.addEventListener("mouseenter", Swal.stopTimer);
     toast.addEventListener("mouseleave", Swal.resumeTimer);
   },
 });
+
 
 if (navigator.geolocation) {
   navigator.geolocation.watchPosition(showPosition);
@@ -198,8 +200,10 @@ function DriverSelectCustomerPage() {
     Toast.fire({
       icon: "info",
       title: "Customer is waiting . . .",
-    }).then(()=> {
-      setCustomerStatus('driving');
+    }).then((result)=> {
+      if(result.dismiss == 'cancel'){
+        alert('cancelled!');
+      }
     })
   };
 
@@ -237,7 +241,7 @@ function DriverSelectCustomerPage() {
                 onClick={() => handleGetCustomer()}
                 className="btn btn-primary"
               >
-                Get Customer
+                Get Passenger
               </button>
             ) : (
               <button
