@@ -215,6 +215,7 @@ function DriverSelectCustomerPage() {
     Toast.fire({
       icon: "success",
       title: "Customer Successfully Escorted",
+      showCancelButton: false,
     }).then(() => {
       setCustomerStatus("drove");
     });
