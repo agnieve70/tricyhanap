@@ -41,9 +41,12 @@ function CustomerDashboardPage() {
   const [showTextArea, setShowTextArea]  =useState(false);
   const [fare, setFare]  =useState(20.00);
   const [clicked, setClicked]  =useState(false);
+  const [count, setCount] = useState(1);
+
 
   const [steps, setStep] = useState();
   const [duration, setDuration] = useState();
+  const [status, setStatus] = useState();
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -186,9 +189,17 @@ function CustomerDashboardPage() {
   const handleFindVehicle = () => {
     Toast.fire({
       icon: "question",
-      title: "Finding Vehicle",
+      title: "Finding Tricy",
       showCancelButton: true,
-    });
+    }).then((data)=> {
+     if(count === 2){
+
+      setStatus('Waiting');
+     }else{
+      setStatus('No Tricycle has picked up your request.');
+      setCount(count + 1);
+     }
+    })
   };
 
   const handleReportDriver = () => {
@@ -207,7 +218,7 @@ function CustomerDashboardPage() {
   }
 
   return (
-    <>
+    <div className="mb-3">
       <CustomerNavbar />
       <CustomerSidebar />
       <div>
@@ -215,12 +226,14 @@ function CustomerDashboardPage() {
         <div className="container mt-3">
           {clicked && <h4>Fare: Php. {fare}</h4>}
           <h4>Trip duration: {duration} min 🚴</h4>
+          {status && <h4>Status: <span className="text-muted">{status}</span></h4>}
+          {/* <h4>Status: <span className="badge bg-warning">Waiting</span></h4> */}
           <div class="d-grid gap-2">
             <button
               onClick={() => handleFindVehicle()}
               className="btn btn-primary"
             >
-              Get Vehicle <i className="fa fa-search"></i>
+              Get Tricy <i className="fa fa-search"></i>
             </button>
             {showTextArea && <>
               <textarea className="form-control" placeholder="Please describe what happend..." rows={5}></textarea>
@@ -255,7 +268,7 @@ function CustomerDashboardPage() {
           </ul>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
