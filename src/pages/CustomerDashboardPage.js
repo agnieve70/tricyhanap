@@ -202,7 +202,7 @@ function CustomerDashboardPage() {
   const handleSaveReport = () => {
     Toast.fire({
       icon: "success",
-      title: "Save Report",
+      title: "Send Report",
     });
   }
 
@@ -228,7 +228,7 @@ function CustomerDashboardPage() {
               onClick={() => handleSaveReport()}
               className="btn btn-danger"
             >
-              Save Report <i className="fa fa-information"></i>
+              Send Report <i className="fa fa-information"></i>
             </button>
             <button
               onClick={() => handleCancelReport()}
