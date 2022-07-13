@@ -154,7 +154,7 @@ function CustomerDashboardPage() {
       }
       // add turn instructions here at the end
     }
-    console.log("MYLOCATION", myLocation[1]);
+    console.log("MYLOCATION", myLocation);
     getAddress(myLocation[1], myLocation[0]).then((result) => {
       setCurrentAddress(result);
     });
