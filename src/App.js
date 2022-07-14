@@ -16,6 +16,10 @@ import NotFoundPage from "./pages/NotFoundPage";
 import DriverDashboardPage from "./pages/DriverDashboardPage";
 import DriverSelectCustomerPage from "./pages/DriverSelectCustomerPage";
 import DriverPenalties from "./pages/DriverPenalties";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminUsers from "./pages/AdminUsers";
+import AdminReports from "./pages/AdminReports";
+import AdminDrivers from "./pages/AdminDrivers";
 
 function App() {
   return (
@@ -26,6 +30,10 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/customer-dashboard" element={<CustomerDashboardPage />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/admin-users" element={<AdminUsers />} />
+        <Route path="/admin-drivers" element={<AdminDrivers />} />
+        <Route path="/admin-reports" element={<AdminReports />} />
         <Route
           path="/customer-transaction"
           element={<CustomerTransactionPage />}
